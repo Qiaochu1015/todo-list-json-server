@@ -1,0 +1,83 @@
+.app{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: fit-content;
+  padding:50px;
+  text-align: center;
+  gap:10px;
+  align-items: stretch;
+
+}
+
+html{
+  display: flex;
+  justify-content: center;
+}
+
+.form{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+}
+
+.tasks-container {
+  display: flex;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 30px;
+  gap: 20px;
+}
+
+h3 {
+  margin-bottom: 40px;
+}
+
+/* .on-going .completed {
+  border: 5px solid black;
+  width: 300px;
+  column-gap: 10px;
+} */
+
+.on-going {
+  border: 1px solid black;
+  width: 350px;
+  padding: 30px;
+}
+
+.completed-container {
+  border: 1px solid black;
+  width: 350px;
+  padding: 30px
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.todo-list{
+  padding:0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  gap:10px;
+}
+
+.todo-list li{
+  display: flex;
+  justify-content: space-between;
+}
+.todo-list li span{
+  flex-grow: 1;
+  text-align: center;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+
