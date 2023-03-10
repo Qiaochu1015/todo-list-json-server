@@ -1,32 +1,32 @@
 //Fetch Implementation
 //GET
 const myFetch = (url, options = {}) => {
-    const { method = 'GET', headers = {}, body } = options;
+	const { method = "GET", headers = {}, body } = options;
 
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
 
-        xhr.open(method, url);
+		xhr.open(method, url);
 
-        Object.keys(headers).forEach(key => {
-            xhr.setRequestHeader(key, headers[key])
-        })
+		Object.keys(headers).forEach((key) => {
+			xhr.setRequestHeader(key, headers[key]);
+		});
 
-        xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                resolve(xhr.responseText)
-            } else {
-                reject(new Error(xhr.statusText))
-            }
-        }
+		xhr.onload = () => {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				resolve(xhr.responseText);
+			} else {
+				reject(new Error(xhr.statusText));
+			}
+		};
 
-        xhr.onerror = () => {
-            reject(new Error('Network Error'))
-        }
+		xhr.onerror = () => {
+			reject(new Error("Network Error"));
+		};
 
-        xhr.send(body)
-    })
-}
+		xhr.send(body);
+	});
+};
 
 //POST
 
@@ -52,7 +52,7 @@ const APIs = (() => {
 
 	//Read data to initialize
 	const getTodos = () => {
-		return myFetch(url).then((res) => res.json());
+		return fetch(url).then((res) => res.json());
 	};
 
 	//Edit data
@@ -139,13 +139,13 @@ const View = (() => {
 	const todolistEl = document.querySelector(".todo-list");
 	const submitBtnEl = document.querySelector(".submit-btn");
 	const inputEl = document.querySelector(".input");
-	const completeSection = document.querySelector("#completed-tasks")
+	const completeSection = document.querySelector("#completed-tasks");
 
 	//rendering todos based on the state todo data
 	const renderTodos = (todos) => {
-		console.log("todos", todos)
+		console.log("todos", todos);
 		let todoTemplate = "";
-		let completeTemplate = ""
+		let completeTemplate = "";
 
 		todos.forEach((todo) => {
 			const temp1 = `<li><input type="text" name="${todo.id}" class="todo-input ${todo.id}" value="${todo.content}" readonly />
@@ -153,22 +153,22 @@ const View = (() => {
 			<button class="complete-btn ${todo.id}" >Complete</button>
 			<button class="delete-btn ${todo.id}">Delete</button></li>`;
 
-		// 	const temp2 = `<li><input type="text" name="${todo.id}" class="todo-input ${todo.id}" value="${todo.content}" readonly />
-		// 	<button class="complete-btn ${todo.id}" >Complete</button>
-		// 	<button class="delete-btn ${todo.id}">Delete</button></li>`
-		// 	todoTemplate += liTemplate;
+			// 	const temp2 = `<li><input type="text" name="${todo.id}" class="todo-input ${todo.id}" value="${todo.content}" readonly />
+			// 	<button class="complete-btn ${todo.id}" >Complete</button>
+			// 	<button class="delete-btn ${todo.id}">Delete</button></li>`
+			// 	todoTemplate += liTemplate;
 
-		// 	todo.isCompleted ? completeTemplate += temp2 : todoTemplate += temp1
-		// });
+			// 	todo.isCompleted ? completeTemplate += temp2 : todoTemplate += temp1
+			// });
+			todoTemplate += temp1;
+		});
 
 		if (todos.length === 0) {
 			todoTemplate = "<h4>No on-going task to display</h4>";
 		}
 
-			todolistEl.innerHTML = todoTemplate += temp1;
-			// completeSection.innerHTML = incompleteTemplate;
-
-
+		todolistEl.innerHTML = todoTemplate;
+		// completeSection.innerHTML = incompleteTemplate;
 	};
 
 	const clearInput = () => {
@@ -206,7 +206,7 @@ const View = (() => {
 
 		input.classList.add("completed");
 		button.innerText = "Incomplete";
-        console.log("completed")
+		console.log("completed");
 	};
 
 	const incompleteTask = (id) => {
@@ -279,22 +279,17 @@ const Controller = ((view, model) => {
 
 	const handleEdit = () => {
 		view.todolistEl.addEventListener("click", (e) => {
-			if (
-				e.target.classList.contains("edit-btn") 
-			) {
-                const id = e.target.classList[1];
-                // console.log("edit-id", id)
+			if (e.target.classList.contains("edit-btn")) {
+				const id = e.target.classList[1];
+				// console.log("edit-id", id)
 
-                const tempData = [...state.todos].filter((el) => el.id === +id);
-                // console.log(tempData[0].isCompleted)
+				const tempData = [...state.todos].filter((el) => el.id === +id);
+				// console.log(tempData[0].isCompleted)
 
-                if(e.target.innerText === "Edit") {
-    
-                    view.makeEditable(id);
-
-                }  else {
-
-                    const newValue = view.saveEdit(id);
+				if (e.target.innerText === "Edit") {
+					view.makeEditable(id);
+				} else {
+					const newValue = view.saveEdit(id);
 					model
 						.editTodo(+id, {
 							content: newValue,
@@ -311,8 +306,8 @@ const Controller = ((view, model) => {
 							});
 						});
 					view.saveEdit(id);
-                    // console.log(state.todos);
-                }
+					// console.log(state.todos);
+				}
 			}
 		});
 	};
@@ -326,43 +321,40 @@ const Controller = ((view, model) => {
 				const tempData = [...state.todos].filter((el) => el.id === +id);
 				console.log("tempdata", tempData);
 
-                let newValue
+				let newValue;
 
 				if (e.target.innerText === "Complete") {
-                    newValue = true;
-                    view.completeTask(id);
-				}  else {
-                    newValue = false;
-                    view.incompleteTask(id)
-                }
+					newValue = true;
+					view.completeTask(id);
+				} else {
+					newValue = false;
+					view.incompleteTask(id);
+				}
 
-                model
-                .editTodo(+id, {
-                    content: tempData[0].content,
-                    isCompleted: newValue,
-                    id: id,
-                })
-                .then((data) => {
-                    console.log("data", data);
-                    state.todos = state.todos.map((todo) => {
-                        if (todo.id === +id) {
-                            return {
-								content: data.content,
-								isCompleted: data.isCompleted,
-								id: data.id
-							};
-                        } else {
-                            return todo;
-                        }
-                    });
-                    console.log("state", state.todos);
-                });
-
+				model
+					.editTodo(+id, {
+						content: tempData[0].content,
+						isCompleted: newValue,
+						id: id,
+					})
+					.then((data) => {
+						console.log("data", data);
+						state.todos = state.todos.map((todo) => {
+							if (todo.id === +id) {
+								return {
+									content: data.content,
+									isCompleted: data.isCompleted,
+									id: data.id,
+								};
+							} else {
+								return todo;
+							}
+						});
+						console.log("state", state.todos);
+					});
 			}
 		});
 	};
-
-
 
 	const bootstrap = () => {
 		init();
@@ -370,10 +362,8 @@ const Controller = ((view, model) => {
 		handleDelete();
 		handleEdit();
 		handleComplete();
-		// handleFilter();
 		state.subscribe(() => {
 			view.renderTodos(state.todos); //use renderTodos function from view
-			// view.renderCompletedTodos(state.completed)
 		}); //and data from Model state.todos(getter)
 	};
 
