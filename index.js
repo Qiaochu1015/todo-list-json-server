@@ -45,7 +45,7 @@ const APIs = (() => {
 
 	//Delete todo items
 	const deleteTodo = (id) => {
-		return myFetch(`${url}/${id}`, {
+		return fetch(`${url}/${id}`, {
 			method: "DELETE",
 		}).then((res) => res.json());
 	};
