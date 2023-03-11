@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
   width: fit-content;
   padding:50px;
   text-align: center;
@@ -25,6 +25,7 @@ html{
 .tasks-container {
   display: flex;
   border: 1px solid black;
+  border-radius: 10px;
   width: fit-content;
   padding: 30px;
   gap: 20px;
@@ -40,16 +41,11 @@ h3 {
   column-gap: 10px;
 } */
 
-.on-going {
+.container  {
   border: 1px solid black;
+  border-radius: 10px;
   width: 350px;
   padding: 30px;
-}
-
-.completed-container {
-  border: 1px solid black;
-  width: 350px;
-  padding: 30px
 }
 
 .form {
@@ -58,7 +54,7 @@ h3 {
   margin-bottom: 30px;
 }
 
-.todo-list{
+ul {
   padding:0;
   margin: 0;
   display: flex;
@@ -67,17 +63,16 @@ h3 {
   gap:10px;
 }
 
-.todo-list li{
+ul li{
+  padding: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
-.todo-list li span{
+
+ul li span{
   flex-grow: 1;
   text-align: center;
 }
 
-.completed {
-  text-decoration: line-through;
-}
 
 
